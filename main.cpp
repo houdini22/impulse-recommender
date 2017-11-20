@@ -22,10 +22,10 @@ int main() {
     // return 0;
 
     Impulse::Recommender::Trainer trainer(model);
-    trainer.setLearningRate(0.005);
-    trainer.setNumOfIterations(400);
+    trainer.setLearningRate(0.01);
+    trainer.setNumOfIterations(1000);
     trainer.setVerbose(true);
-    trainer.setVerboseStep(5);
+    trainer.setVerboseStep(50);
     trainer.train();
 
     model.calculatePredictions();

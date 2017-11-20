@@ -31,7 +31,8 @@ namespace Impulse {
             double error = model.getError();
 
             if (this->verbose) {
-                std::cout << "Starting training with error: [" << error << "], [" << this->numOfIterations << "] iterations." << std::endl;
+                std::cout << "Starting training with error: [" << error << "], [" << this->numOfIterations
+                          << "] iterations." << std::endl;
             }
 
             while (step < this->numOfIterations) {
@@ -58,8 +59,11 @@ namespace Impulse {
                                 //std::cout << predictions << std::endl;
                                 //return;
                                 //std::cout << "THETA:" << theta(j, k) << std::endl;
-                                //std::cout << "TMP:" << ((predictions(i, k) - means(i)) - y(i, k)) << std::endl;
-                                gradientSum += ((predictions(i, k) + means(i)) - y(i, k)) * theta(j, k);
+                                //std::cout << "TMP:" << (predictions(i, k) - means(i)) << std::endl;
+                                //std::cout << "TMP:" << ((predictions(i, k) - means(i) - y(i, k))) << std::endl;
+                                gradientSum += ((predictions(i, k) - means(i) - y(i, k)) * theta(j, k));
+
+                                //std::cout << k << "," << j << std::endl;
                             }
                             k++;
                         }
@@ -82,10 +86,11 @@ namespace Impulse {
                         for (T_Size l = 0; l < y.rows(); l++) {
                             if (!std::isnan(y(k, i))) {
                                 //std::cout << "TEST3: " << l << std::endl;
-                                //std::cout << "PREDICTIONS: " << (predictions(k, i)) << std::endl;
+                                //std::cout << "PREDICTIONS: " << (predictions(j, i) - y(k, i)) << std::endl;
                                 //std::cout << "Y: " << y(k, i) << std::endl;
                                 //std::cout << "NEW X:" << newX(j, k) << std::endl;
-                                gradientSum += ((predictions(k, i) - means(i)) - y(k, i)) * newX(j, k);
+                                gradientSum += (predictions(k, i) - means(k) - y(k, i)) * newX(j, k);
+                                //std::cout << "PREDICTIONS: " << (predictions(k, i) - means(k)) << std::endl;
                             }
                             k++;
                         }

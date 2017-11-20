@@ -32,13 +32,15 @@ namespace Impulse {
             }
 
             this->means = this->means.array() / meanCounts.array();
-            //this->y = this->y.array() - this->means.replicate(1, uniqueCategoriesCount).array();
+            this->y = this->y.array() - this->means.replicate(1, uniqueCategoriesCount).array();
 
             this->x.resize(this->numFeatures, uniqueItemsCount);
             this->x.setRandom();
+            this->x = this->x / 3.99;
 
             this->theta.resize(this->numFeatures, uniqueCategoriesCount);
             this->theta.setRandom();
+            this->theta = this->theta / 3.99;
 
             this->predictions.resize(uniqueItemsCount, uniqueCategoriesCount);
             this->predictions.setZero();
@@ -53,7 +55,7 @@ namespace Impulse {
         void Model::calculatePredictions() {
             for (T_Size i = 0; i < this->predictions.rows(); i++) {
                 for (T_Size j = 0; j < this->predictions.cols(); j++) {
-                    this->predictions(i, j) = 0;
+                    this->predictions(i, j) = this->means(i);
                     Math::T_Vector x = this->x.col(i);
                     Math::T_Vector theta = this->theta.col(j);
                     for (T_Size k = 0; k < x.rows(); k++) {
@@ -79,6 +81,10 @@ namespace Impulse {
             return this->y;
         }
 
+        Math::T_Matrix Model::getMeans() {
+            return this->means;
+        }
+
         void Model::setX(Math::T_Matrix x) {
             this->x = x;
         }
@@ -89,18 +95,17 @@ namespace Impulse {
 
         double Model::getError() {
             this->calculatePredictions();
-
             double sum = 0.0;
 
-            for (T_Size i = 0; i < this->y.rows(); i++) {
-                for (T_Size j = 0; j < this->y.cols(); j++) {
-                    if (!std::isnan(this->y(i, j))) {
-                        sum += pow(this->predictions(i, j) - this->y(i, j), 2.0);
+            for (T_Size i = 0; i < this->y.cols(); i++) {
+                for (T_Size j = 0; j < this->y.rows(); j++) {
+                    if (!std::isnan(this->y(j, i))) {
+                        sum += pow(this->predictions(j, i) - (this->y(j, i) + this->means(j)), 2.0);
                     }
                 }
             }
 
-            return sum;
+            return sum / 2;
         }
     }
 }

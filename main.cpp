@@ -17,10 +17,13 @@ int main() {
     Impulse::Recommender::Model model(dataset, 2);
     model.calculatePredictions();
     std::cout << model.getPredictions() << std::endl;
+    std::cout << model.getError() << std::endl;
+
+    // return 0;
 
     Impulse::Recommender::Trainer trainer(model);
-    trainer.setLearningRate(0.01);
-    trainer.setNumOfIterations(50);
+    trainer.setLearningRate(0.005);
+    trainer.setNumOfIterations(400);
     trainer.setVerbose(true);
     trainer.setVerboseStep(5);
     trainer.train();

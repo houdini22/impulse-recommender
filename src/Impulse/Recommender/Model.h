@@ -33,6 +33,8 @@ namespace Impulse {
 
             Math::T_Matrix getY();
 
+            Math::T_Matrix getMeans();
+
             void setX(Math::T_Matrix x);
 
             void setTheta(Math::T_Matrix theta);

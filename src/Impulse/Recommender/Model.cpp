@@ -7,7 +7,7 @@ namespace Impulse {
     namespace Recommender {
 
         Model::Model(Impulse::Dataset::Dataset &dataset, T_Size numFeatures) : dataset(dataset) {
-            this->numFeatures = numFeatures;
+            this->numberOfFeatures = numFeatures;
             this->datasetMatrix = this->dataset.exportToEigen();
 
             this->initialize();
@@ -37,10 +37,10 @@ namespace Impulse {
             this->means = this->means.array() / meanCounts.array();
             this->y = this->y.array() - this->means.replicate(1, uniqueCategoriesCount).array();
 
-            this->x.resize(this->numFeatures, uniqueItemsCount);
+            this->x.resize(this->numberOfFeatures, uniqueItemsCount);
             this->x.setRandom();
 
-            this->theta.resize(this->numFeatures, uniqueCategoriesCount);
+            this->theta.resize(this->numberOfFeatures, uniqueCategoriesCount);
             this->theta.setRandom();
 
             this->predictions.resize(uniqueItemsCount, uniqueCategoriesCount);
@@ -65,6 +65,10 @@ namespace Impulse {
 
         Math::T_Matrix &Model::getY() {
             return this->y;
+        }
+
+        Math::T_Vector &Model::getMeans() {
+            return this->means;
         }
 
         void Model::setX(Math::T_Matrix x) {
@@ -94,6 +98,10 @@ namespace Impulse {
 
         double Model::predict(T_Size itemId) {
             return this->means(itemId);
+        }
+
+        T_Size Model::getNumberOfFeatures() {
+            return this->numberOfFeatures;
         }
     }
 }

@@ -22,6 +22,11 @@ int main() {
     std::cout << model.getPredictions() << std::endl;
     std::cout << model.getError() << std::endl;
 
+    Serializer serializer(model);
+    serializer.toJSON("/home/hud/CLionProjects/recommender/saved.json");
+
+    return 0;
+
     std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;

@@ -10,7 +10,7 @@ namespace Impulse {
         class Model {
         protected:
             Impulse::Dataset::Dataset &dataset;
-            T_Size numFeatures;
+            T_Size numberOfFeatures;
             Math::T_Matrix datasetMatrix;
             Math::T_Matrix x;
             Math::T_Matrix y;
@@ -33,6 +33,8 @@ namespace Impulse {
 
             Math::T_Matrix &getY();
 
+            Math::T_Vector &getMeans();
+
             void setX(Math::T_Matrix x);
 
             void setTheta(Math::T_Matrix theta);
@@ -42,6 +44,8 @@ namespace Impulse {
             double predict(T_Size itemId, T_Size categoryId);
 
             double predict(T_Size itemId);
+
+            T_Size getNumberOfFeatures();
         };
     }
 }

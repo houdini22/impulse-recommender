@@ -111,5 +111,10 @@ namespace Impulse {
         double Model::predict(T_Size itemId, T_Size categoryId) {
             return this->predictions(itemId, categoryId) + this->means(itemId);
         }
+
+        void Model::debug() {
+            this->calculatePredictions();
+            std::cout << "PREDICTIONS: " << std::endl << this->predictions << std::endl << "===" << std::endl;
+        }
     }
 }

@@ -19,12 +19,13 @@ int main() {
     std::cout << model.getPredictions() << std::endl;
     std::cout << model.getError() << std::endl;
 
-    /*std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
+    model.debug();
+    std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
 
-    return 0;*/
+    return 0;
 
     Impulse::Recommender::Trainer trainer(model);
     trainer.setLearningRate(0.01);
@@ -39,6 +40,7 @@ int main() {
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
+    model.debug();
 
     return 0;
 }

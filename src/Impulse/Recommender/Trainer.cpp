@@ -52,13 +52,10 @@ namespace Impulse {
                         for (T_Size l = 0; l < y.cols(); l++) {
                             //std::cout << "TEST3: " << l << std::endl;
                             if (!std::isnan(y(i, l))) {
-                                //std::cout << "RESULT:" << ((predictions(i, l) - means(i)) - y(i, l)) << std::endl;
                                 //std::cout << "RESULT2:" << (y(i, l)) << std::endl;
                                 //std::cout << predictions << std::endl;
                                 //return;
                                 //std::cout << "THETA:" << theta(j, l) << std::endl;
-                                //std::cout << "TMP:" << (predictions(i, l) - means(i)) << std::endl;
-                                //std::cout << "TMP:" << ((predictions(i, l) - means(i) - y(i, l))) << std::endl;
                                 gradientSum += ((predictions(i, l) - y(i, l)) * theta(j, l));
 
                                 //std::cout << l << "," << j << std::endl;
@@ -86,7 +83,6 @@ namespace Impulse {
                                 //std::cout << "Y: " << y(l, i) << std::endl;
                                 //std::cout << "NEW X:" << newX(j, l) << std::endl;
                                 gradientSum += (predictions(l, i) - y(l, i)) * newX(j, l);
-                                //std::cout << "PREDICTIONS: " << (predictions(l, i) - means(l)) << std::endl;
                             }
                         }
 

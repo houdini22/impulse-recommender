@@ -42,6 +42,8 @@ namespace Impulse {
             double getError();
 
             double predict(T_Size itemId, T_Size categoryId);
+
+            void debug();
         };
     }
 }

@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "include.h"
 
 namespace Impulse {
@@ -36,26 +38,31 @@ namespace Impulse {
 
             this->x.resize(this->numFeatures, uniqueItemsCount);
             this->x.setRandom();
-            this->x = this->x / 3.99;
+            this->x = this->x.unaryExpr([](const double x) {
+                return abs(x) / 3.99;
+            });
 
             this->theta.resize(this->numFeatures, uniqueCategoriesCount);
             this->theta.setRandom();
-            this->theta = this->theta / 3.99;
+            this->theta = this->theta.unaryExpr([](const double x) {
+                return abs(x) / 3.99;
+            });
 
             this->predictions.resize(uniqueItemsCount, uniqueCategoriesCount);
             this->predictions.setZero();
 
-            this->x << -0.63090354072446, -0.6309035407243, -0.50472283257967, 1.3761809198022, 0.63090354072446,
-                    1.40066790037295, 1.400667900373, 1.1205343202982, -0.76526705206508, -1.4006679003729;
+            /*this->x << 1.1048966816963, 1.1048966816962, 0.88391734535708, -0.3234194309528, -1.1048966816963,
+                    1.0757658273392, 1.0757658273393, 0.86061266187134, -1.5226708965577, -1.0757658273392;
 
-            this->theta << 0.3723803072231, 1.3418598314896, -0.85712006935633, -0.85712006935633,
-                    -1.6171313307557, -1.1804481852672, 1.3987897580115, 1.3987897580115;
+            this->theta << -1.4418356320263, -0.63569876479206, 1.0387671984091, 1.0387671984091,
+                    -0.84304648053928, -1.6710128715178, 1.2570296760286, 1.2570296760286;*/
         }
 
         void Model::calculatePredictions() {
+            this->predictions.setZero();
+
             for (T_Size i = 0; i < this->predictions.rows(); i++) {
                 for (T_Size j = 0; j < this->predictions.cols(); j++) {
-                    this->predictions(i, j) = 0;
                     Math::T_Vector x = this->x.col(i);
                     Math::T_Vector theta = this->theta.col(j);
                     for (T_Size k = 0; k < x.rows(); k++) {
@@ -86,11 +93,11 @@ namespace Impulse {
         }
 
         void Model::setX(Math::T_Matrix x) {
-            this->x = x;
+            this->x = std::move(x);
         }
 
         void Model::setTheta(Math::T_Matrix theta) {
-            this->theta = theta;
+            this->theta = std::move(theta);
         }
 
         double Model::getError() {
@@ -115,6 +122,7 @@ namespace Impulse {
         void Model::debug() {
             this->calculatePredictions();
             std::cout << "PREDICTIONS: " << std::endl << this->predictions << std::endl << "===" << std::endl;
+            //std::cout << "Y: " << std::endl << this->y << std::endl << "===" << std::endl;
         }
     }
 }

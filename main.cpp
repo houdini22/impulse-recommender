@@ -5,6 +5,8 @@
 using namespace Impulse::Dataset;
 
 int main() {
+    srand((unsigned int) time(0));
+
     DatasetBuilder::CSVBuilder builder("/home/hud/CLionProjects/recommender/data/data.csv");
     Dataset dataset = builder.build();
     dataset.out();
@@ -19,13 +21,11 @@ int main() {
     std::cout << model.getPredictions() << std::endl;
     std::cout << model.getError() << std::endl;
 
-    model.debug();
+    // model.debug();
     std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
-
-    return 0;
 
     Impulse::Recommender::Trainer trainer(model);
     trainer.setLearningRate(0.01);

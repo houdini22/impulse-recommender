@@ -25,9 +25,8 @@ namespace Impulse {
 
         void Trainer::train() {
             T_Size step = 0;
-            Model model = this->model;
-            Math::T_Matrix y = model.getY();
-            double error = model.getError();
+            Math::T_Matrix y = this->model.getY();
+            double error = this->model.getError();
 
             if (this->verbose) {
                 std::cout << "Starting training with error: [" << error << "], [" << this->numOfIterations
@@ -35,10 +34,10 @@ namespace Impulse {
             }
 
             while (step < this->numOfIterations) {
-                model.calculatePredictions();
-                Math::T_Matrix predictions = model.getPredictions();
-                Math::T_Matrix theta = model.getTheta();
-                Math::T_Matrix x = model.getX();
+                this->model.calculatePredictions();
+                Math::T_Matrix predictions = this->model.getPredictions();
+                Math::T_Matrix theta = this->model.getTheta();
+                Math::T_Matrix x = this->model.getX();
 
                 Math::T_Matrix newX(x.rows(), x.cols());
                 Math::T_Matrix newTheta(theta.rows(), theta.cols());
@@ -58,7 +57,7 @@ namespace Impulse {
                                 //std::cout << "THETA:" << theta(j, l) << std::endl;
                                 gradientSum += ((predictions(i, l) - y(i, l)) * theta(j, l));
 
-                                //std::cout << l << "," << j << std::endl;
+                                //std::cout << theta(j, l) << std::endl;
                             }
                         }
 
@@ -83,6 +82,7 @@ namespace Impulse {
                                 //std::cout << "Y: " << y(l, i) << std::endl;
                                 //std::cout << "NEW X:" << newX(j, l) << std::endl;
                                 gradientSum += (predictions(l, i) - y(l, i)) * newX(j, l);
+                                //std::cout << newX(j, l) << std::endl;
                             }
                         }
 
@@ -90,12 +90,10 @@ namespace Impulse {
                     }
                 }
 
-                //return;
+                this->model.setX(newX);
+                this->model.setTheta(newTheta);
 
-                model.setX(newX);
-                model.setTheta(newTheta);
-
-                error = model.getError();
+                error = this->model.getError();
 
                 if ((step + 1) % this->verboseStep == 0) {
                     std::cout << "Step: [" << (step + 1) << "] with error:[" << error << "]." << std::endl;

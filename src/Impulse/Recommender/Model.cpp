@@ -9,6 +9,7 @@ namespace Impulse {
         Model::Model(Impulse::Dataset::Dataset &dataset, T_Size numFeatures) : dataset(dataset) {
             this->numFeatures = numFeatures;
             this->datasetMatrix = this->dataset.exportToEigen();
+
             this->initialize();
         }
 

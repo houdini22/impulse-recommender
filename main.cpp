@@ -40,6 +40,7 @@ int main() {
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
+    std::cout << "PREDICTION (mean): " << model.predict(2) << std::endl;
 
     return 0;
 }

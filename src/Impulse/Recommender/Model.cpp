@@ -91,5 +91,9 @@ namespace Impulse {
         double Model::predict(T_Size itemId, T_Size categoryId) {
             return this->predictions(itemId, categoryId) + this->means(itemId);
         }
+
+        double Model::predict(T_Size itemId) {
+            return this->means(itemId);
+        }
     }
 }

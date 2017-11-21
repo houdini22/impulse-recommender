@@ -6,7 +6,6 @@ namespace Impulse {
 
         namespace Math {
 
-
         }
     }
 }

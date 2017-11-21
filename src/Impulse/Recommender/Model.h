@@ -25,15 +25,13 @@ namespace Impulse {
 
             void calculatePredictions();
 
-            Math::T_Matrix getPredictions();
+            Math::T_Matrix &getPredictions();
 
-            Math::T_Matrix getTheta();
+            Math::T_Matrix &getTheta();
 
-            Math::T_Matrix getX();
+            Math::T_Matrix &getX();
 
-            Math::T_Matrix getY();
-
-            Math::T_Matrix getMeans();
+            Math::T_Matrix &getY();
 
             void setX(Math::T_Matrix x);
 
@@ -42,8 +40,6 @@ namespace Impulse {
             double getError();
 
             double predict(T_Size itemId, T_Size categoryId);
-
-            void debug();
         };
     }
 }

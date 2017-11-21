@@ -33,7 +33,7 @@ set(SOURCE_FILES
         src/Impulse/Recommender/Math/common.cpp
         src/Impulse/Recommender/Math/common.h
         src/Impulse/Recommender/Trainer.h
-        src/Impulse/Recommender/Trainer.cpp)
+        src/Impulse/Recommender/Trainer.cpp src/Impulse/Recommender/common.cpp)
 
 FIND_PACKAGE(OpenMP REQUIRED)
 if (OPENMP_FOUND)

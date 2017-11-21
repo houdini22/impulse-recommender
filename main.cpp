@@ -3,9 +3,10 @@
 #include "./src/Impulse/Recommender/include.h"
 
 using namespace Impulse::Dataset;
+using namespace Impulse::Recommender;
 
 int main() {
-    srand((unsigned int) time(0));
+    initialize();
 
     DatasetBuilder::CSVBuilder builder("/home/hud/CLionProjects/recommender/data/data.csv");
     Dataset dataset = builder.build();
@@ -16,18 +17,17 @@ int main() {
     categoryId.applyToColumn(1);
     dataset.out();
 
-    Impulse::Recommender::Model model(dataset, 2);
+    Model model(dataset, 2);
     model.calculatePredictions();
     std::cout << model.getPredictions() << std::endl;
     std::cout << model.getError() << std::endl;
 
-    // model.debug();
     std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
 
-    Impulse::Recommender::Trainer trainer(model);
+    Trainer trainer(model);
     trainer.setLearningRate(0.01);
     trainer.setNumOfIterations(5000);
     trainer.setVerbose(true);
@@ -40,7 +40,6 @@ int main() {
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
-    model.debug();
 
     return 0;
 }

@@ -85,6 +85,8 @@ namespace Impulse {
             if (this->verbose) {
                 std::cout << "Training ended with error: [" << error << "]." << std::endl;
             }
+
+            this->model.calculatePredictions();
         }
     }
 }

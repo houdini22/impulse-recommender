@@ -18,12 +18,7 @@ namespace Impulse {
             x.clear();
 
             Math::T_RawVector y = jsonFile["y"];
-            model.setY(createMatrix(y, jsonFile["y_size"][0], jsonFile["y_size"][1]).unaryExpr([](const double x) {
-                if (x == -1337.0) { // ugly hack
-                    return nan("");
-                }
-                return x;
-            }));
+            model.setY(createMatrix(y, jsonFile["y_size"][0], jsonFile["y_size"][1]));
             y.clear();
 
             Math::T_RawVector theta = jsonFile["theta"];
@@ -48,7 +43,12 @@ namespace Impulse {
 
             for (T_Size i = 0; i < cols; i++) {
                 for (T_Size j = 0; j < rows; j++) {
-                    result(j, i) = vec.at(k++);
+                    if (vec.at(k) == -1337.0) {
+                        result(j, i) = NAN;
+                    } else {
+                        result(j, i) = vec.at(k);
+                    }
+                    k++;
                 }
             }
 

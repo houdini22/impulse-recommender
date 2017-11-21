@@ -21,7 +21,9 @@ namespace Impulse {
             void initialize();
 
         public:
-            Model(Impulse::Dataset::Dataset &dataset, T_Size numFeatures);
+            Model(Impulse::Dataset::Dataset &dataset, T_Size numFeatures, bool initialize = true);
+
+            Model(T_Size numFeatures);
 
             void calculatePredictions();
 
@@ -35,9 +37,15 @@ namespace Impulse {
 
             Math::T_Vector &getMeans();
 
+            void setPredictions(Math::T_Matrix predictions);
+
+            void setTheta(Math::T_Matrix predictions);
+
             void setX(Math::T_Matrix x);
 
-            void setTheta(Math::T_Matrix theta);
+            void setY(Math::T_Matrix y);
+
+            void setMeans(Math::T_Matrix means);
 
             double getError();
 

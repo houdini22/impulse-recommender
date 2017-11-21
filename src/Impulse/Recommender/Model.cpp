@@ -6,11 +6,18 @@ namespace Impulse {
 
     namespace Recommender {
 
-        Model::Model(Impulse::Dataset::Dataset &dataset, T_Size numFeatures) : dataset(dataset) {
+        Model::Model(Impulse::Dataset::Dataset &dataset, T_Size numFeatures, bool initialize) : dataset(
+                dataset) {
             this->numberOfFeatures = numFeatures;
             this->datasetMatrix = this->dataset.exportToEigen();
 
-            this->initialize();
+            if (initialize) {
+                this->initialize();
+            }
+        }
+
+        Model::Model(T_Size numFeatures) : dataset(dataset) {
+            this->numberOfFeatures = numFeatures;
         }
 
         void Model::initialize() {
@@ -24,7 +31,9 @@ namespace Impulse {
             meanCounts.setZero();
 
             this->y.resize(uniqueItemsCount, uniqueCategoriesCount);
-            this->y.setZero();
+            this->y = this->y.unaryExpr([](const double x) {
+                return std::nan("");
+            });
 
             for (T_Size i = 0; i < this->datasetMatrix.rows(); i++) {
                 this->y(this->datasetMatrix(i, 0), this->datasetMatrix(i, 1)) = this->datasetMatrix(i, 2);
@@ -71,8 +80,20 @@ namespace Impulse {
             return this->means;
         }
 
+        void Model::setPredictions(Math::T_Matrix predictions) {
+            this->predictions = predictions;
+        }
+
         void Model::setX(Math::T_Matrix x) {
             this->x = std::move(x);
+        }
+
+        void Model::setY(Math::T_Matrix y) {
+            this->y = y;
+        }
+
+        void Model::setMeans(Math::T_Matrix means) {
+            this->means = means;
         }
 
         void Model::setTheta(Math::T_Matrix theta) {

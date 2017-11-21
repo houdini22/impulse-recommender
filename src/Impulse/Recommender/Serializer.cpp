@@ -25,6 +25,12 @@ namespace Impulse {
             result["means"] = this->getRolled(means);
             result["predictions"] = this->getRolled(predictions);
 
+            result["x_size"] = {x.cols(), x.rows()};
+            result["y_size"] = {y.cols(), y.rows()};
+            result["theta_size"] = {theta.cols(), theta.rows()};
+            result["means_size"] = {means.cols(), means.rows()};
+            result["predictions_size"] = {predictions.cols(), predictions.rows()};
+
             std::ofstream out(path);
             out << result.dump();
             out.close();
@@ -36,7 +42,11 @@ namespace Impulse {
 
             for (T_Size i = 0; i < var.cols(); i++) {
                 for (T_Size j = 0; j < var.rows(); j++) {
-                    result.push_back(var(j, i));
+                    if (std::isnan(var(j, i))) {
+                        result.push_back(-1337.0);
+                    } else {
+                        result.push_back(var(j, i));
+                    }
                 }
             }
 
@@ -44,3 +54,4 @@ namespace Impulse {
         }
     }
 }
+

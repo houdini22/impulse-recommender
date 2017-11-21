@@ -40,6 +40,8 @@ namespace Impulse {
             void setTheta(Math::T_Matrix theta);
 
             double getError();
+
+            double predict(T_Size itemId, T_Size categoryId);
         };
     }
 }

@@ -45,17 +45,17 @@ namespace Impulse {
             this->predictions.resize(uniqueItemsCount, uniqueCategoriesCount);
             this->predictions.setZero();
 
-            /*this->x << -0.63090354072446, -0.6309035407243, -0.50472283257967, 1.3761809198022, 0.63090354072446,
+            this->x << -0.63090354072446, -0.6309035407243, -0.50472283257967, 1.3761809198022, 0.63090354072446,
                     1.40066790037295, 1.400667900373, 1.1205343202982, -0.76526705206508, -1.4006679003729;
 
             this->theta << 0.3723803072231, 1.3418598314896, -0.85712006935633, -0.85712006935633,
-                    -1.6171313307557, -1.1804481852672, 1.3987897580115, 1.3987897580115;*/
+                    -1.6171313307557, -1.1804481852672, 1.3987897580115, 1.3987897580115;
         }
 
         void Model::calculatePredictions() {
             for (T_Size i = 0; i < this->predictions.rows(); i++) {
                 for (T_Size j = 0; j < this->predictions.cols(); j++) {
-                    this->predictions(i, j) = this->means(i);
+                    this->predictions(i, j) = 0;
                     Math::T_Vector x = this->x.col(i);
                     Math::T_Vector theta = this->theta.col(j);
                     for (T_Size k = 0; k < x.rows(); k++) {
@@ -100,12 +100,16 @@ namespace Impulse {
             for (T_Size i = 0; i < this->y.cols(); i++) {
                 for (T_Size j = 0; j < this->y.rows(); j++) {
                     if (!std::isnan(this->y(j, i))) {
-                        sum += pow(this->predictions(j, i) - (this->y(j, i) + this->means(j)), 2.0);
+                        sum += pow(this->predictions(j, i) - this->y(j, i), 2.0);
                     }
                 }
             }
 
             return sum / 2;
+        }
+
+        double Model::predict(T_Size itemId, T_Size categoryId) {
+            return this->predictions(itemId, categoryId) + this->means(itemId);
         }
     }
 }

@@ -19,17 +19,26 @@ int main() {
     std::cout << model.getPredictions() << std::endl;
     std::cout << model.getError() << std::endl;
 
-    // return 0;
+    /*std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
+    std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
+    std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
+    std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
+
+    return 0;*/
 
     Impulse::Recommender::Trainer trainer(model);
     trainer.setLearningRate(0.01);
-    trainer.setNumOfIterations(1000);
+    trainer.setNumOfIterations(5000);
     trainer.setVerbose(true);
-    trainer.setVerboseStep(50);
+    trainer.setVerboseStep(100);
     trainer.train();
 
     model.calculatePredictions();
     std::cout << model.getPredictions() << std::endl;
+    std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
+    std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
+    std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
+    std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
 
     return 0;
 }

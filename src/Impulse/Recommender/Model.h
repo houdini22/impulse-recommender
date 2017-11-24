@@ -39,7 +39,7 @@ namespace Impulse {
 
             void setPredictions(Math::T_Matrix predictions);
 
-            void setTheta(Math::T_Matrix predictions);
+            void setTheta(Math::T_Matrix theta);
 
             void setX(Math::T_Matrix x);
 

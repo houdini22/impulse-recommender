@@ -4,38 +4,43 @@ namespace Impulse {
 
     namespace Recommender {
 
-        Trainer::Trainer(Model &model) : model(model) {
+        SmartTrainer::SmartTrainer(Model &model) : model(model) {
         }
 
-        void Trainer::setLearningRate(double value) {
+        void SmartTrainer::setLearningRate(double value) {
             learningRate = value;
         }
 
-        void Trainer::setNumOfIterations(T_Size value) {
+        void SmartTrainer::setNumOfIterations(T_Size value) {
             this->numOfIterations = value;
         }
 
-        void Trainer::setVerbose(bool value) {
+        void SmartTrainer::setVerbose(bool value) {
             this->verbose = value;
         }
 
-        void Trainer::setVerboseStep(T_Size value) {
+        void SmartTrainer::setVerboseStep(T_Size value) {
             this->verboseStep = value;
         }
 
-        void Trainer::train() {
+        void SmartTrainer::train() {
+            this->model.calculatePredictions();
+
             T_Size step = 0;
             Math::T_Matrix y = this->model.getY();
             double error = this->model.getError();
+            double prevError = error;
             double learningRate = this->learningRate;
 
             if (this->verbose) {
-                std::cout << "Starting training with error: [" << error << "], [" << this->numOfIterations
-                          << "] iterations." << std::endl;
+                std::cout << "Starting training ERROR:[" << error << "], NUMBER OF ITERATIONS:["
+                          << this->numOfIterations
+                          << "]." << std::endl;
             }
 
             while (step < this->numOfIterations) {
-                this->model.calculatePredictions();
+                std::chrono::high_resolution_clock::time_point timeStart = std::chrono::high_resolution_clock::now();
+
                 Math::T_Matrix predictions = this->model.getPredictions();
                 Math::T_Matrix theta = this->model.getTheta();
                 Math::T_Matrix x = this->model.getX();
@@ -79,21 +84,46 @@ namespace Impulse {
 
                 this->model.setX(newX);
                 this->model.setTheta(newTheta);
-
                 error = this->model.getError();
 
-                if ((step + 1) % this->verboseStep == 0) {
-                    std::cout << "Step: [" << (step + 1) << "] with error: [" << error << "]." << std::endl;
+                if (error > prevError) {
+                    this->model.setX(x);
+                    this->model.setTheta(theta);
+                    error = this->model.getError();
+
+                    if (learningRate > 0.005) {
+                        learningRate -= 0.001;
+                    } else {
+                        learningRate *= 0.95;
+                    }
+
+
+                    if (this->verbose) {
+                        std::cout << "Decreasing learning rate. STEP:[" << (step + 1) << "] ERROR:[" << error
+                                  << "] LEARNING RATE:[" << learningRate << "]." << std::endl;
+                    }
+                } else {
+                    step++;
+                    prevError = error;
+
+                    this->model.calculatePredictions();
+
+                    std::chrono::high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count();
+
+                    if (this->verbose) {
+                        if ((step + 1) % this->verboseStep == 0) {
+                            std::cout << "STEP:[" << (step + 1) << "] ERROR:[" << error << "] TIME:[" << duration
+                                      << "ms]" << std::endl;
+                        }
+                    }
                 }
 
-                step++;
             }
 
             if (this->verbose) {
-                std::cout << "Training ended with error: [" << error << "]." << std::endl;
+                std::cout << "Training ended with ERROR:[" << error << "]." << std::endl;
             }
-
-            this->model.calculatePredictions();
         }
     }
 }

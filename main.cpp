@@ -15,25 +15,26 @@ void test_movie_lens() {
     categoryId.applyToColumn(1);
     dataset.out();
 
-    Model model(dataset, 10);
+    Model model(dataset, 75);
     model.calculatePredictions();
-    //std::cout << model.getPredictions() << std::endl;
     std::cout << model.getError() << std::endl;
 
+/*
     std::cout << "PREDICTION: " << model.predict(1, 1) << std::endl;
     std::cout << "PREDICTION: " << model.predict(1, 2) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 0) << std::endl;
     std::cout << "PREDICTION: " << model.predict(2, 3) << std::endl;
+*/
 
-    Trainer trainer(model);
-    trainer.setLearningRate(0.001);
-    trainer.setNumOfIterations(500);
+    SmartTrainer trainer(model);
+    trainer.setLearningRate(0.1);
+    trainer.setNumOfIterations(10000);
     trainer.setVerbose(true);
     trainer.setVerboseStep(1);
     trainer.train();
 
     Serializer serializer(model);
-    serializer.toJSON("/home/hud/CLionProjects/recommender/saved/movie_lens.json");
+    serializer.toJSON("/home/hud/CLionProjects/recommender/saved/movie_lens5.json");
 }
 
 void test_test() {
@@ -115,16 +116,29 @@ void test_my() {
 
 void test_load() {
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-    Model model = Builder::buildFromJSON("/home/hud/CLionProjects/recommender/saved/movie_lens.json");
+    Model model = Builder::buildFromJSON("/home/hud/CLionProjects/recommender/saved/movie_lens5.json");
     std::cout << model.getError() << std::endl;
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
     std::cout << "Time: " << duration << std::endl;
+    std::cout << "PREDICTION: " << model.predict(0, 0) << std::endl;
+    std::cout << "PREDICTION: " << model.predict(20, 0) << std::endl;
 
+    if (false) {
+        Trainer trainer(model);
+        trainer.setLearningRate(0.001);
+        trainer.setNumOfIterations(5000);
+        trainer.setVerbose(true);
+        trainer.setVerboseStep(1);
+        trainer.train();
+
+        Serializer serializer(model);
+        serializer.toJSON("/home/hud/CLionProjects/recommender/saved/movie_lens2.json");
+    }
 }
 
 int main() {
-    initialize();
+    //initialize();
     //test_movie_lens();
     //test_test();
     test_load();

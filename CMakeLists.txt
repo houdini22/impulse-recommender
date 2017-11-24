@@ -30,11 +30,20 @@ set(SOURCE_FILES
         src/Vendor/impulse-ml-dataset/src/src/Impulse/Dataset/DatasetSample.h
         src/Vendor/impulse-ml-dataset/src/src/Impulse/Dataset/include.h
         src/Vendor/json/src/json.hpp
-        main.cpp src/Impulse/Recommender/Model.h src/Impulse/Recommender/include.h src/Impulse/Recommender/Model.cpp src/Impulse/Recommender/common.h
+        main.cpp
+        src/Impulse/Recommender/Model.h src/Impulse/Recommender/include.h
+        src/Impulse/Recommender/Model.cpp src/Impulse/Recommender/common.h
         src/Impulse/Recommender/Math/common.cpp
         src/Impulse/Recommender/Math/common.h
         src/Impulse/Recommender/Trainer.h
-        src/Impulse/Recommender/Trainer.cpp src/Impulse/Recommender/common.cpp src/Impulse/Recommender/Serializer.h src/Impulse/Recommender/Serializer.cpp src/Impulse/Recommender/Builder.h src/Impulse/Recommender/Builder.cpp)
+        src/Impulse/Recommender/Trainer.cpp
+        src/Impulse/Recommender/common.cpp
+        src/Impulse/Recommender/Serializer.h
+        src/Impulse/Recommender/Serializer.cpp
+        src/Impulse/Recommender/Builder.h
+        src/Impulse/Recommender/Builder.cpp
+        src/Impulse/Recommender/SmartTrainer.cpp
+        src/Impulse/Recommender/SmartTrainer.h)
 
 FIND_PACKAGE(OpenMP REQUIRED)
 if (OPENMP_FOUND)

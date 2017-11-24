@@ -12,6 +12,7 @@
 #include "Math/common.h"
 #include "Model.h"
 #include "Trainer.h"
+#include "SmartTrainer.h"
 #include "Serializer.h"
 #include "Builder.h"
 
